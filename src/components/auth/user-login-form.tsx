@@ -43,6 +43,14 @@ export function UserLoginForm({ className, ...props }: UserLoginFormProps) {
         },
     });
 
+    const { setValue } = form;
+
+    const handleQuickSetCredentials = (email: string, password: string) => {
+        setValue("email", email);
+        setValue("password", password);
+        toast.success(`Credentials set for ${email}`);
+    };
+
     async function onSubmit(data: FormValues) {
         setIsLoading(true);
         const response = await signin(data);
@@ -132,6 +140,23 @@ export function UserLoginForm({ className, ...props }: UserLoginFormProps) {
                     </div>
                 </form>
             </Form>
+            {/* Quick login credentials */}
+            <div className="mt-8 space-y-4">
+                <div className="flex items-center justify-between bg-blue-100 p-3 rounded-lg">
+                    <span className="text-blue-800">
+                        Admin: ali@gmail.com / 123456
+                    </span>
+                    <Button
+                        onClick={() =>
+                            handleQuickSetCredentials("ali@gmail.com", "123456")
+                        }
+                        className="bg-blue-600 text-white"
+                        variant="default"
+                    >
+                        Copy User
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 }
