@@ -47,6 +47,7 @@ const taskApi = baseApi.injectEndpoints({
             transformResponse: (response: TResponseRedux<any>) => {
                 return response.data;
             },
+            providesTags: ["taskstatistics"],
         }),
         createTask: builder.mutation({
             query: (data) => {
@@ -56,7 +57,7 @@ const taskApi = baseApi.injectEndpoints({
                     body: data,
                 };
             },
-            invalidatesTags: ["tasks"],
+            invalidatesTags: ["tasks", "taskstatistics"],
         }),
         updateTasks: builder.mutation({
             query: (data) => {
