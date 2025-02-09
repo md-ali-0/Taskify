@@ -44,7 +44,7 @@ export default function RegisterPage() {
                         <blockquote className="space-y-2">
                             <p className="text-lg">
                                 &ldquo;This task management app has
-                                revolutionized the way our team works. It's
+                                revolutionized the way our team works. It&apos;s
                                 intuitive, powerful, and keeps us all on the
                                 same page.&rdquo;
                             </p>

@@ -1,3 +1,4 @@
+// @typescript-eslint/no-unused-vars
 "use client"
 
 import { Overview } from "@/components/dashboard/overview";
@@ -16,9 +17,9 @@ import { toast } from "sonner";
 import Loading from "../loading";
 
 export default function DashboardPage() {
-    const [search, setSearch] = useState<string | undefined>(undefined);
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
+    const [search] = useState<string | undefined>(undefined);
+    const [page] = useState(1);
+    const [limit] = useState(10);
 
     const { data, isError, isLoading, isSuccess, error } =
         useGetTaskStatisticsQuery([

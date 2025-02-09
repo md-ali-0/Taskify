@@ -27,9 +27,9 @@ export default function Header({
     setSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const [isDarkMode, setIsDarkMode] = useState(false);
-    const { session, setIsLoading } = useSession();
+    const { setIsLoading } = useSession();
     const router = useRouter();
-    const { data: user, isLoading } = useGetMeQuery(undefined);
+    const { data: user } = useGetMeQuery(undefined);
 
     useEffect(() => {
         const isDark = localStorage.getItem("darkMode") === "true";

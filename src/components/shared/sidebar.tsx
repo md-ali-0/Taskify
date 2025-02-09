@@ -22,7 +22,7 @@ export default function Sidebar({
     setSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const pathname = usePathname();
-    const { session, setIsLoading } = useSession();
+    const { setIsLoading } = useSession();
     const router = useRouter();
 
     const handleLogout = async () => {

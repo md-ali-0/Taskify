@@ -1,14 +1,8 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-export const metadata: Metadata = {
-    title: "Forgot Password",
-    description: "Reset your password",
-};
 
 export default function ForgotPasswordPage() {
     return (
@@ -43,7 +37,7 @@ export default function ForgotPasswordPage() {
                     <div className="relative z-20 mt-auto">
                         <blockquote className="space-y-2">
                             <p className="text-lg">
-                                &ldquo;Don't worry, we've got you covered.
+                                &ldquo;Don&apos;t worry, we&apos;ve got you covered.
                                 Resetting your password is quick and
                                 easy.&rdquo;
                             </p>
@@ -60,7 +54,7 @@ export default function ForgotPasswordPage() {
                                 Forgot your password?
                             </h1>
                             <p className="text-sm text-muted-foreground">
-                                Enter your email address and we'll send you a
+                                Enter your email address and we&apos;ll send you a
                                 link to reset your password.
                             </p>
                         </div>

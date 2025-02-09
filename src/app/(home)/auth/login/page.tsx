@@ -44,7 +44,7 @@ export default function LoginPage() {
                         <blockquote className="space-y-2">
                             <p className="text-lg">
                                 &ldquo;Taskify has streamlined our workflow
-                                and boosted our productivity. It's a
+                                and boosted our productivity. It&apos;s a
                                 game-changer for task management.&rdquo;
                             </p>
                             <footer className="text-sm">Alex Johnson</footer>

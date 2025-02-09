@@ -1,30 +1,19 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+"use client"
 
 import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { notFound } from "next/navigation";
+import Link from "next/link";
+import { notFound, useSearchParams } from "next/navigation";
 
-export const metadata: Metadata = {
-    title: "Reset Password",
-    description: "Create a new password for your account",
-};
-
-interface ResetPasswordPageProps {
-    token: string;
-}
-
-export default async function ResetPasswordPage({
-    searchParams,
-}: {
-    searchParams: ResetPasswordPageProps;
-}) {
-    const { token } = searchParams;
+export default function ResetPasswordPage() {
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
 
     if (!token) {
         notFound();
     }
+
     return (
         <>
             <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -78,7 +67,7 @@ export default async function ResetPasswordPage({
                                 to your account.
                             </p>
                         </div>
-                        <ResetPasswordForm token={token}/>
+                        <ResetPasswordForm token={token} />
                     </div>
                 </div>
             </div>

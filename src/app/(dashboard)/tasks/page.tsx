@@ -1,3 +1,5 @@
+// @typescript-eslint/no-unused-vars
+
 "use client";
 
 import CreateTaskModal from "@/components/task-dashboard/create-task-modal";
@@ -8,9 +10,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function TaskDashboardPage() {
-    const [search, setSearch] = useState<string | undefined>(undefined);
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
+    const [search] = useState<string | undefined>(undefined);
+    const [page] = useState(1);
+    const [limit] = useState(10);
 
     const { data, isError, isLoading, isSuccess, error } = useGetAllTasksQuery([
         {

@@ -32,7 +32,7 @@ export default function CreateTaskModal() {
     const [date, setDueDate] = useState("");
     const [priority, setPriority] = useState("MEDIUM");
 
-    const [createTask, { isSuccess, isError, error, isLoading }] =
+    const [createTask, { isSuccess, isError, error }] =
         useCreateTaskMutation();
 
     useEffect(() => {

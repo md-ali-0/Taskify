@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Task, TQueryParam, TResponseRedux } from "@/types";
 import { baseApi } from "../../api/baseApi";
 
@@ -37,7 +39,7 @@ const taskApi = baseApi.injectEndpoints({
             },
         }),
         getTaskStatistics: builder.query({
-            query: (id) => {
+            query: () => {
                 return {
                     url: `/tasks/statistics`,
                 };

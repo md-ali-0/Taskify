@@ -63,7 +63,7 @@ export function DeleteTaskAlert({
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently
-                        delete the task "{task.title}" and remove it from our
+                        delete the task &quot{task.title}&quot and remove it from our
                         servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>

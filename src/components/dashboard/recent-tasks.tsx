@@ -16,11 +16,11 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export function RecentTasks() {
-    const [search, setSearch] = useState<string | undefined>(undefined);
-    const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
+    const [search] = useState<string | undefined>(undefined);
+    const [page] = useState(1);
+    const [limit] = useState(10);
 
-    const { data, isError, isLoading, isSuccess, error } = useGetAllTasksQuery([
+    const { data, isError, isSuccess, error } = useGetAllTasksQuery([
         {
             name: "limit",
             value: limit,

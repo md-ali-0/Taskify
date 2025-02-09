@@ -31,7 +31,7 @@ interface EditTaskDialogProps {
 export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
     const [editedTask, setEditedTask] = useState<Task>(task);
 
-    const [updatePackage, { isSuccess, isLoading, isError, error }] =
+    const [updatePackage, { isSuccess, isError, error }] =
         useUpdateTasksMutation();
 
     useEffect(() => {
@@ -62,7 +62,7 @@ export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
                 <DialogHeader>
                     <DialogTitle>Edit Task</DialogTitle>
                     <DialogDescription>
-                        Make changes to your task here. Click save when you're
+                        Make changes to your task here. Click save when you&quotre
                         done.
                     </DialogDescription>
                 </DialogHeader>
