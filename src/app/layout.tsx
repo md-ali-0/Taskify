@@ -1,4 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
+import ReduxProvider from "@/provider/redux-provider";
+import { SessionProvider } from "@/provider/session-provider";
 import { ThemeProvider } from "@/provider/theme-provider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
@@ -30,15 +32,17 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 suppressHydrationWarning
             >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="light"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    {children}
-                    <Toaster richColors />
-                </ThemeProvider>
+                <SessionProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="light"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <ReduxProvider>{children}</ReduxProvider>
+                        <Toaster richColors={true} expand={false} />
+                    </ThemeProvider>
+                </SessionProvider>
             </body>
         </html>
     );

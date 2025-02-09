@@ -14,7 +14,7 @@ const taskApi = baseApi.injectEndpoints({
                     });
                 }
                 return {
-                    url: `/task`,
+                    url: `/tasks`,
                     params: params,
                 };
             },
@@ -29,7 +29,7 @@ const taskApi = baseApi.injectEndpoints({
         getSingleOrder: builder.query({
             query: (id) => {
                 return {
-                    url: `/task/${id}`,
+                    url: `/tasks/${id}`,
                 };
             },
             transformResponse: (response: TResponseRedux<Task>) => {
@@ -39,7 +39,7 @@ const taskApi = baseApi.injectEndpoints({
         createOrder: builder.mutation({
             query: (data) => {
                 return {
-                    url: `/task`,
+                    url: `/tasks`,
                     method: "POST",
                     body: data,
                 };
@@ -49,8 +49,8 @@ const taskApi = baseApi.injectEndpoints({
         updateOrders: builder.mutation({
             query: (data) => {
                 return {
-                    url: `/task/${data.id}`,
-                    method: "PATCH",
+                    url: `/tasks/${data.id}`,
+                    method: "PUT",
                     body: data.data,
                 };
             },
@@ -59,7 +59,7 @@ const taskApi = baseApi.injectEndpoints({
         deleteOrder: builder.mutation({
             query: (id) => {
                 return {
-                    url: `/task/${id}`,
+                    url: `/tasks/${id}`,
                     method: "DELETE",
                 };
             },
