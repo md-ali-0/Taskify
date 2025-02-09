@@ -1,7 +1,11 @@
 "use client";
 
+import { useSession } from "@/provider/session-provider";
+import { signout } from "@/service/auth";
 import { Bell, Menu, Moon, Search, Sun } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
@@ -21,6 +25,9 @@ export default function Header({
     setSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const { session, setIsLoading } = useSession();
+    const router = useRouter();
+
     useEffect(() => {
         const isDark = localStorage.getItem("darkMode") === "true";
         setIsDarkMode(isDark);
@@ -33,6 +40,20 @@ export default function Header({
         localStorage.setItem("darkMode", newDarkMode.toString());
         document.documentElement.classList.toggle("dark", newDarkMode);
     };
+
+    const handleLogout = async () => {
+        try {
+            setIsLoading(true);
+            localStorage.removeItem("token");
+            await signout();
+            setIsLoading(false);
+            toast.success("Logout Successfully");
+            router.push("/");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
     return (
         <header className="bg-white dark:bg-gray-800 shadow-sm z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -105,7 +126,7 @@ export default function Header({
                                 <DropdownMenuItem>Profile</DropdownMenuItem>
                                 <DropdownMenuItem>Settings</DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>Log out</DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

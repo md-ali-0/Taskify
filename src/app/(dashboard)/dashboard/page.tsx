@@ -1,6 +1,6 @@
 import { Overview } from "@/components/dashboard/overview";
 import { RecentTasks } from "@/components/dashboard/recent-tasks";
-import AddTask from "@/components/task-dashboard/add-task";
+import CreateTaskModal from "@/components/task-dashboard/create-task-modal";
 import {
     Card,
     CardContent,
@@ -14,7 +14,7 @@ export default function DashboardPage() {
         <div className="space-y-8">
             <div className="flex items-center justify-between">
                 <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-                <AddTask />
+                <CreateTaskModal />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>

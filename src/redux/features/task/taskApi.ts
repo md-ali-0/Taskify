@@ -3,7 +3,7 @@ import { baseApi } from "../../api/baseApi";
 
 const taskApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getAllOrders: builder.query({
+        getAllTasks: builder.query({
             query: (args) => {
                 const params = new URLSearchParams();
                 if (args) {
@@ -26,7 +26,7 @@ const taskApi = baseApi.injectEndpoints({
             },
             providesTags: ["tasks"],
         }),
-        getSingleOrder: builder.query({
+        getSingleTask: builder.query({
             query: (id) => {
                 return {
                     url: `/tasks/${id}`,
@@ -36,7 +36,7 @@ const taskApi = baseApi.injectEndpoints({
                 return response.data;
             },
         }),
-        createOrder: builder.mutation({
+        createTask: builder.mutation({
             query: (data) => {
                 return {
                     url: `/tasks`,
@@ -46,7 +46,7 @@ const taskApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ["tasks"],
         }),
-        updateOrders: builder.mutation({
+        updateTasks: builder.mutation({
             query: (data) => {
                 return {
                     url: `/tasks/${data.id}`,
@@ -56,7 +56,7 @@ const taskApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ["tasks"],
         }),
-        deleteOrder: builder.mutation({
+        deleteTask: builder.mutation({
             query: (id) => {
                 return {
                     url: `/tasks/${id}`,
@@ -69,9 +69,9 @@ const taskApi = baseApi.injectEndpoints({
 });
 
 export const {
-    useGetAllOrdersQuery,
-    useGetSingleOrderQuery,
-    useCreateOrderMutation,
-    useUpdateOrdersMutation,
-    useDeleteOrderMutation,
+    useGetAllTasksQuery,
+    useGetSingleTaskQuery,
+    useCreateTaskMutation,
+    useUpdateTasksMutation,
+    useDeleteTaskMutation,
 } = taskApi;

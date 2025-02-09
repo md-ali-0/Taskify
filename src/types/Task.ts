@@ -8,13 +8,13 @@ export type Task = {
     updatedAt: Date;
 };
 
-enum TaskStatus {
+export enum TaskStatus {
     TODO,
     InPROGRESS,
     DONE,
 }
 
-enum TaskPriority {
+export enum TaskPriority {
     LOW,
     MEDIUM,
     HIGH,

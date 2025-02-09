@@ -1,8 +1,11 @@
 import { cn } from "@/lib/utils";
+import { useSession } from "@/provider/session-provider";
+import { signout } from "@/service/auth";
 import { LayoutDashboard, ListTodo, LogOut, User, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 const sidebarItems = [
@@ -19,6 +22,21 @@ export default function Sidebar({
     setSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }) {
     const pathname = usePathname();
+    const { session, setIsLoading } = useSession();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        try {
+            setIsLoading(true);
+            localStorage.removeItem("token");
+            await signout();
+            setIsLoading(false);
+            toast.success("Logout Successfully");
+            router.push("/");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
 
     return (
         <aside
@@ -61,7 +79,7 @@ export default function Sidebar({
                     </ul>
                 </nav>
                 <div className="p-4 border-t dark:border-gray-700">
-                    <Button variant="outline" className="w-full">
+                    <Button onClick={handleLogout} variant="outline" className="w-full">
                         <LogOut className="mr-2 h-4 w-4" />
                         Log out
                     </Button>
