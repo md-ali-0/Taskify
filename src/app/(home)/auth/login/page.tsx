@@ -38,12 +38,12 @@ export default function LoginPage() {
                         >
                             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
                         </svg>
-                        TaskMaster
+                        Taskify
                     </div>
                     <div className="relative z-20 mt-auto">
                         <blockquote className="space-y-2">
                             <p className="text-lg">
-                                &ldquo;TaskMaster has streamlined our workflow
+                                &ldquo;Taskify has streamlined our workflow
                                 and boosted our productivity. It's a
                                 game-changer for task management.&rdquo;
                             </p>

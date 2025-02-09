@@ -36,6 +36,16 @@ const taskApi = baseApi.injectEndpoints({
                 return response.data;
             },
         }),
+        getTaskStatistics: builder.query({
+            query: (id) => {
+                return {
+                    url: `/tasks/statistics`,
+                };
+            },
+            transformResponse: (response: TResponseRedux<any>) => {
+                return response.data;
+            },
+        }),
         createTask: builder.mutation({
             query: (data) => {
                 return {
@@ -71,6 +81,7 @@ const taskApi = baseApi.injectEndpoints({
 export const {
     useGetAllTasksQuery,
     useGetSingleTaskQuery,
+    useGetTaskStatisticsQuery,
     useCreateTaskMutation,
     useUpdateTasksMutation,
     useDeleteTaskMutation,

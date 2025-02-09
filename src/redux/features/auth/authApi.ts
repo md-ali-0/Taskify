@@ -1,3 +1,4 @@
+import { TResponseRedux, User } from "@/types";
 import { baseApi } from "../../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -20,6 +21,27 @@ const authApi = baseApi.injectEndpoints({
                 };
             },
         }),
+        getMe: builder.query({
+            query: () => {
+                return {
+                    url: `/auth/profile`,
+                };
+            },
+            transformResponse: (response: TResponseRedux<User>) => {
+                return response.data;
+            },
+            providesTags: ["user"],
+        }),
+        updateProfile: builder.mutation({
+            query: (data) => {
+                return {
+                    url: `/auth/profile`,
+                    method: "PUT",
+                    body: data,
+                };
+            },
+            invalidatesTags: ["user"],
+        }),
         forgetPassword: builder.mutation({
             query: (data) => {
                 return {
@@ -30,10 +52,10 @@ const authApi = baseApi.injectEndpoints({
             },
         }),
         resetPassword: builder.mutation({
-            query: ({ id, newPassword, token }) => ({
+            query: ({ id, password, token }) => ({
                 url: "/auth/reset-password",
                 method: "POST",
-                body: { id, newPassword },
+                body: { id, password },
                 headers: {
                     Authorization: token,
                 },
@@ -45,6 +67,8 @@ const authApi = baseApi.injectEndpoints({
 export const {
     useLoginUserMutation,
     useSignUpUserMutation,
+    useGetMeQuery,
+    useUpdateProfileMutation,
     useForgetPasswordMutation,
     useResetPasswordMutation,
 } = authApi;

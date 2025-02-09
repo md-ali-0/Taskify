@@ -1,8 +1,10 @@
 "use client";
 
 import { useSession } from "@/provider/session-provider";
+import { useGetMeQuery } from "@/redux/features/auth/authApi";
 import { signout } from "@/service/auth";
 import { Bell, Menu, Moon, Search, Sun } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -27,6 +29,7 @@ export default function Header({
     const [isDarkMode, setIsDarkMode] = useState(false);
     const { session, setIsLoading } = useSession();
     const router = useRouter();
+    const { data: user, isLoading } = useGetMeQuery(undefined);
 
     useEffect(() => {
         const isDark = localStorage.getItem("darkMode") === "true";
@@ -100,10 +103,12 @@ export default function Header({
                                 >
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage
-                                            src="/avatars/01.png"
-                                            alt="@shadcn"
+                                            src={user?.avatar || "#"}
+                                            alt={user?.name}
                                         />
-                                        <AvatarFallback>SC</AvatarFallback>
+                                        <AvatarFallback>
+                                            {user?.name.split("")[0]}
+                                        </AvatarFallback>
                                     </Avatar>
                                 </Button>
                             </DropdownMenuTrigger>
@@ -115,18 +120,21 @@ export default function Header({
                                 <DropdownMenuLabel className="font-normal">
                                     <div className="flex flex-col space-y-1">
                                         <p className="text-sm font-medium leading-none">
-                                            shadcn
+                                            {user?.name}
                                         </p>
                                         <p className="text-xs leading-none text-muted-foreground">
-                                            m@example.com
+                                            {user?.email}
                                         </p>
                                     </div>
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>Profile</DropdownMenuItem>
-                                <DropdownMenuItem>Settings</DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Link href={"/profile"}>Profile</Link>
+                                </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleLogout}>
+                                    Log out
+                                </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

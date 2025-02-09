@@ -48,7 +48,7 @@ export default function Sidebar({
             <div className="h-full flex flex-col">
                 <div className="flex items-center justify-between h-16 px-4 border-b dark:border-gray-700">
                     <span className="text-2xl font-semibold text-gray-800 dark:text-white">
-                        TaskMaster
+                        Taskify
                     </span>
                     <Button
                         variant="ghost"

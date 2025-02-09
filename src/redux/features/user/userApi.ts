@@ -1,30 +1,8 @@
-import { CreditDetails, TResponseRedux, User } from "@/types";
+import { TResponseRedux, User } from "@/types";
 import { baseApi } from "../../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getMe: builder.query({
-            query: () => {
-                return {
-                    url: `/users/me`,
-                };
-            },
-            transformResponse: (response: TResponseRedux<User>) => {
-                return response.data;
-            },
-            providesTags: ["user"],
-        }),
-        getCreditDetails: builder.query({
-            query: () => {
-                return {
-                    url: `/users/credit-details`,
-                };
-            },
-            transformResponse: (response: TResponseRedux<CreditDetails>) => {
-                return response.data;
-            },
-            providesTags: ["creditDetails"],
-        }),
         getAllUsers: builder.query({
             query: () => {
                 return {
@@ -59,24 +37,11 @@ const userApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ["users"],
         }),
-        updateProfile: builder.mutation({
-            query: (data) => {
-                return {
-                    url: `/users/me`,
-                    method: "PUT",
-                    body: data,
-                };
-            },
-            invalidatesTags: ["user"],
-        }),
     }),
 });
 
 export const {
-    useGetMeQuery,
-    useGetCreditDetailsQuery,
     useGetAllUsersQuery,
     useDeleteUserMutation,
-    useUpdateProfileMutation,
     useUpdateUserMutation,
 } = userApi;

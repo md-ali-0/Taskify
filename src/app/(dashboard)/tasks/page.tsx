@@ -26,7 +26,6 @@ export default function TaskDashboardPage() {
             value: search,
         },
     ]);
-    console.log(data);
 
     useEffect(() => {
         if (isError) {

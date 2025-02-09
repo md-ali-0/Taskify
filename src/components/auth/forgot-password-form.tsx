@@ -5,55 +5,103 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useForgetPasswordMutation } from "@/redux/features/auth/authApi";
+import { ErrorResponse } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SerializedError } from "@reduxjs/toolkit";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { Icons } from "../shared/icons";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "../ui/form";
 
 interface ForgotPasswordFormProps
     extends React.HTMLAttributes<HTMLDivElement> {}
+
+const formSchema = z.object({
+    email: z.string().email("Invalid email address"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export function ForgotPasswordForm({
     className,
     ...props
 }: ForgotPasswordFormProps) {
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [forgetPassword, { isSuccess, isLoading, isError, error }] =
+        useForgetPasswordMutation();
 
-    async function onSubmit(event: React.SyntheticEvent) {
-        event.preventDefault();
-        setIsLoading(true);
+    const form = useForm<FormValues>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+        },
+    });
 
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
-        toast.success("Password Reset Link Send Successfully");
-    }
+    React.useEffect(() => {
+        if (isError) {
+            const errorResponse = error as ErrorResponse | SerializedError;
+            const errorMessage =
+                (errorResponse as ErrorResponse)?.data?.message ||
+                "Something went wrong";
+            toast.error(errorMessage);
+        }
+        if (isSuccess) {
+            toast.success("Password reset email sent successfully.");
+        }
+    }, [error, isError, isSuccess]);
+
+    const onSubmit = async (data: FormValues) => {
+        const sendingToast = toast.loading("Sending Password Reset Email.");
+        try {
+            await forgetPassword(data).unwrap();
+            toast.dismiss(sendingToast);
+        } catch (error) {
+            console.error(error);
+            toast.dismiss(sendingToast);
+        }
+    };
 
     return (
         <div className={cn("grid gap-6", className)} {...props}>
-            <form onSubmit={onSubmit}>
-                <div className="grid gap-2">
-                    <div className="grid gap-1">
-                        <Label className="sr-only" htmlFor="email">
-                            Email
-                        </Label>
-                        <Input
-                            id="email"
-                            placeholder="name@example.com"
-                            type="email"
-                            autoCapitalize="none"
-                            autoComplete="email"
-                            autoCorrect="off"
-                            disabled={isLoading}
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="grid gap-2">
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="sr-only">
+                                        Email
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="email"
+                                            placeholder="Enter your email"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
+                        <Button disabled={isLoading}>
+                            {isLoading && (
+                                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                            )}
+                            Send reset link
+                        </Button>
                     </div>
-                    <Button disabled={isLoading}>
-                        {isLoading && (
-                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                        )}
-                        Send reset link
-                    </Button>
-                </div>
-            </form>
+                </form>
+            </Form>
         </div>
     );
 }

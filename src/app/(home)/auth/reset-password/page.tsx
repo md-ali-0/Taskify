@@ -4,13 +4,27 @@ import Link from "next/link";
 import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
     title: "Reset Password",
     description: "Create a new password for your account",
 };
 
-export default function ResetPasswordPage() {
+interface ResetPasswordPageProps {
+    token: string;
+}
+
+export default async function ResetPasswordPage({
+    searchParams,
+}: {
+    searchParams: ResetPasswordPageProps;
+}) {
+    const { token } = searchParams;
+
+    if (!token) {
+        notFound();
+    }
     return (
         <>
             <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -38,7 +52,7 @@ export default function ResetPasswordPage() {
                         >
                             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
                         </svg>
-                        TaskMaster
+                        Taskify
                     </div>
                     <div className="relative z-20 mt-auto">
                         <blockquote className="space-y-2">
@@ -48,7 +62,7 @@ export default function ResetPasswordPage() {
                                 unique and memorable!&rdquo;
                             </p>
                             <footer className="text-sm">
-                                TaskMaster Security Team
+                                Taskify Security Team
                             </footer>
                         </blockquote>
                     </div>
@@ -64,7 +78,7 @@ export default function ResetPasswordPage() {
                                 to your account.
                             </p>
                         </div>
-                        <ResetPasswordForm />
+                        <ResetPasswordForm token={token}/>
                     </div>
                 </div>
             </div>

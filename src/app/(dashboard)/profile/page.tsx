@@ -1,4 +1,5 @@
-import ProfileForm from "@/components/profile/profile-form";
+import PersonalInformation from "@/components/profile/personal-information";
+import Security from "@/components/profile/security";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,9 +9,15 @@ export const metadata: Metadata = {
 
 export default function ProfilePage() {
     return (
-        <div className="max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Profile Settings</h1>
-            <ProfileForm />
+        <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-8">
+                    <PersonalInformation />
+                </div>
+                <div className="space-y-8">
+                    <Security />
+                </div>
+            </div>
         </div>
     );
 }

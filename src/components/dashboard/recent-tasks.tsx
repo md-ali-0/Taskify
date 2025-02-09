@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import {
     Table,
@@ -7,46 +9,62 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-
-const tasks = [
-    {
-        id: "TASK-8782",
-        title: "You can't compress the program without quantifying the open-source SSD pixel!",
-        status: "in progress",
-        priority: "high",
-        dueDate: "2023-09-11",
-    },
-    {
-        id: "TASK-7878",
-        title: "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
-        status: "completed",
-        priority: "medium",
-        dueDate: "2023-09-09",
-    },
-    {
-        id: "TASK-7839",
-        title: "We need to bypass the neural TCP card!",
-        status: "completed",
-        priority: "low",
-        dueDate: "2023-09-07",
-    },
-    {
-        id: "TASK-5562",
-        title: "The SAS interface is down, bypass the open-source pixel so we can back up the PNG bandwidth!",
-        status: "in progress",
-        priority: "high",
-        dueDate: "2023-09-14",
-    },
-    {
-        id: "TASK-8686",
-        title: "I'll parse the wireless SSL protocol, that should driver the API panel!",
-        status: "completed",
-        priority: "medium",
-        dueDate: "2023-09-03",
-    },
-];
+import { useGetAllTasksQuery } from "@/redux/features/task/taskApi";
+import { TaskPriority, TaskStatus } from "@/types";
+import { AlertCircle, CheckCircle2, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function RecentTasks() {
+    const [search, setSearch] = useState<string | undefined>(undefined);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+
+    const { data, isError, isLoading, isSuccess, error } = useGetAllTasksQuery([
+        {
+            name: "limit",
+            value: limit,
+        },
+        {
+            name: "page",
+            value: page,
+        },
+        {
+            name: "searchTerm",
+            value: search,
+        },
+    ]);
+
+    useEffect(() => {
+        if (isError) {
+            toast.error("Something Went Wrong");
+        }
+    }, [isError, isSuccess, error]);
+
+    const getPriorityColor = (priority: TaskPriority) => {
+        switch (priority.toString()) {
+            case "HIGH":
+                return "bg-red-500";
+            case "MEDIUM":
+                return "bg-yellow-500";
+            case "LOW":
+                return "bg-green-500";
+            default:
+                return "bg-blue-500";
+        }
+    };
+
+    const getStatusIcon = (status: TaskStatus) => {
+        switch (status.toString()) {
+            case "DONE":
+                return <CheckCircle2 className="h-5 w-5 text-green-500" />;
+            case "InPROGRESS":
+                return <Clock className="h-5 w-5 text-yellow-500" />;
+            default:
+                return <AlertCircle className="h-5 w-5 text-red-500" />;
+        }
+    };
+
     return (
         <Table>
             <TableHeader>
@@ -59,36 +77,27 @@ export function RecentTasks() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {tasks.map((task) => (
+                {data?.data?.map((task, idx) => (
                     <TableRow key={task.id}>
-                        <TableCell className="font-medium">{task.id}</TableCell>
+                        <TableCell className="font-medium">Task-{idx + 1}</TableCell>
                         <TableCell>{task.title}</TableCell>
                         <TableCell>
-                            <Badge
-                                variant={
-                                    task.status === "completed"
-                                        ? "success"
-                                        : "default"
-                                }
-                            >
-                                {task.status}
-                            </Badge>
+                            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                {getStatusIcon(task.status)}
+                                <span>{task.status}</span>
+                            </div>
                         </TableCell>
                         <TableCell>
                             <Badge
-                                variant={
-                                    task.priority === "high"
-                                        ? "destructive"
-                                        : task.priority === "medium"
-                                        ? "warning"
-                                        : "secondary"
-                                }
+                                className={`${getPriorityColor(
+                                    task.priority
+                                )} text-white`}
                             >
                                 {task.priority}
                             </Badge>
                         </TableCell>
                         <TableCell className="text-right">
-                            {task.dueDate}
+                            {new Date(task.date).toLocaleDateString()}
                         </TableCell>
                     </TableRow>
                 ))}

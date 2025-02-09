@@ -12,7 +12,9 @@ export type User = {
     id: string;
     name: string;
     email: string;
+    phone: string | null;
     avatar: string | null;
+    bio: string | null;
     password: string;
     status: keyof typeof user_status;
     role: keyof typeof user_role;
